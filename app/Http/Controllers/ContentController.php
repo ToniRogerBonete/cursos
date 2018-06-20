@@ -74,7 +74,7 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
-        $content = Content::with(['questions','questions.responses'])
+        $content = Content::with(['questions','questions.responses','documents'])
             ->find($id);
         return response()->json($content);
 

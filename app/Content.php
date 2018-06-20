@@ -28,6 +28,12 @@ class Content extends Model
             ->orderBy('id','DESC');
     }
 
+    public function documents()
+    {
+        return $this->hasMany('App\Document')
+            ->orderBy('id','DESC');
+    }
+
     protected static function boot()
     {
         parent::boot();

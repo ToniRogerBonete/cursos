@@ -164,6 +164,9 @@
                     this.form.current_time = this.$refs.fileVideo.$refs.videoRef.currentTime;
                 }
                 this.form.status = status;
+                if(this.form.type_sale==2) {
+                    this.form.price = '';
+                }
                 axios({
                     method: this.method,
                     url: this.action,

@@ -60,8 +60,8 @@ class DocumentController extends Controller
 
         foreach($request->documentos as $key => $value) {
             Document::firstOrCreate(
-                ['document' => $value['file']],
-                ['account_id' => Auth::user()->account_id,'content_id' => $request->content_id,'document' => $value['file']]
+                ['document' => $value['document'], 'content_id' => $request->content_id],
+                ['account_id' => Auth::user()->account_id,'content_id' => $request->content_id,'document' => $value['document']]
             )->save();
         }
 
@@ -108,8 +108,10 @@ class DocumentController extends Controller
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Document $document)
+    public function destroy($id)
     {
-        //
+        $response = Document::find($id)
+            ->delete();
+        return response()->json(['data'=>'Documento excluído com sucesso!']);
     }
 }

@@ -56216,6 +56216,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.form.current_time = this.$refs.fileVideo.$refs.videoRef.currentTime;
             }
             this.form.status = status;
+            if (this.form.type_sale == 2) {
+                this.form.price = '';
+            }
             axios({
                 method: this.method,
                 url: this.action,
@@ -58380,8 +58383,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             form: {
                 curso_id: this.cursoId,
                 name: '',
-                minimun_time: '',
-                price: ''
+                minimun_time: 0,
+                price: 0
             },
             mostraPreco: false,
             token: Laravel.token,
@@ -58449,7 +58452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 self.form.name = response.data.name;
                 self.form.minimun_time = response.data.minimun_time;
-                self.form.price = response.data.price;
+                self.form.price = response.data.price ? response.data.price : 0;
                 self.modalFileShow(id);
             }).catch(function (error) {});
         },
@@ -59394,6 +59397,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -59509,6 +59539,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
                 if (response.data.questions) {
                     self.questions = response.data.questions;
+                }
+                if (response.data.documents) {
+                    if (response.data.documents.length == 0) {
+
+                        console.log('teste...');
+
+                        Vue.nextTick(function () {
+                            return self.documentos = [];
+                        });
+                    } else {
+                        self.documentos = response.data.documents;
+                    }
                 }
             }).catch(function (error) {});
         },
@@ -59643,11 +59685,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             </div>';
                 self.msgErrorSuccess(true, self.msgError);
             }).catch(function (error) {});
-        },
-        addDocument: function addDocument() {
-
-            console.log(this.documentos);
-
+        }
+    },
+    watch: {
+        documentos: function documentos() {
             var self = this;
             this.doc.content_id = this.form.id;
             this.doc.documentos = this.documentos;
@@ -59657,9 +59698,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 data: this.doc
             }).then(function (response) {
                 self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
-            </div>';
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                    <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
+                </div>';
                 self.msgErrorSuccess(true, self.msgError);
             }).catch(function (error) {});
         }
@@ -59822,7 +59863,36 @@ var render = function() {
                       })
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-footer rounded-0" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-lg-12 text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: {
+                              type: "submit",
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Salvar"
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.submitForm()
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-save" }),
+                            _vm._v(" Salvar\n                            ")
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
                 ]
               )
             ],
@@ -59982,6 +60052,35 @@ var render = function() {
                             }
                           }
                         })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-footer rounded-0" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-lg-12 text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: {
+                              type: "submit",
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Salvar"
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.submitForm()
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-save" }),
+                            _vm._v(" Salvar\n                            ")
+                          ]
+                        )
                       ])
                     ])
                   ])
@@ -60567,6 +60666,35 @@ var render = function() {
                           1
                         )
                       : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-footer rounded-0" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-lg-12 text-right" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: {
+                              type: "submit",
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Salvar"
+                            },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.submitForm()
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-save" }),
+                            _vm._v(" Salvar\n                            ")
+                          ]
+                        )
+                      ])
+                    ])
                   ])
                 ]
               )
@@ -61926,7 +62054,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         anexaArquivo: function anexaArquivo(link) {
-            var documento = { 'file': link };
+            var documento = { 'document': link };
             if (this.verifyObject(link, this.$parent.$parent.$parent.documentos) == false) {
                 this.$parent.$parent.$parent.documentos.push(documento);
             }
@@ -61935,8 +62063,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var arr = [];
             var i;
             for (i = 0; i < object.length; i++) {
-                if (object[i].file != '') {
-                    arr[i] = object[i].file;
+                if (object[i].document != '') {
+                    arr[i] = object[i].document;
                 }
             }
             if (arr.indexOf(item) > -1) {
@@ -62002,21 +62130,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(128)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(130)
 /* template */
-var __vue_template__ = __webpack_require__(131)
+var __vue_template__ = __webpack_require__(132)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-d2282f7a"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -62049,46 +62173,8 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(129);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(58)("bfa3a2f6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d2282f7a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileListaAnexoDocumento.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d2282f7a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileListaAnexoDocumento.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(47)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 128 */,
+/* 129 */,
 /* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -62118,12 +62204,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['documentos'],
     data: function data() {
-        return {};
+        return {
+            showStatus: false
+        };
     },
     methods: {
         removeDocument: function removeDocument(val) {
-            console(this.$parent.$parent.form.id);
-            console.log(val);
+            this.documentos.splice(val.index, 1);
+            var self = this;
+            axios({
+                method: 'DELETE',
+                url: '/api/document/' + val.documentId
+            }).then(function (response) {
+                self.getContent(val.contentId);
+                self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                    <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
+                </div>';
+                self.msgErrorSuccess(true, self.msgError);
+            }).catch(function (error) {});
+        }
+    },
+    watch: {
+        documentos: function documentos() {
+            console.log(this.documentos.length);
+            if (this.documentos.length > 0) {
+                this.showStatus = false;
+            } else {
+                this.showStatus = true;
+            }
         }
     },
     mounted: function mounted() {
@@ -62134,7 +62243,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 131 */
+/* 131 */,
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -62160,7 +62270,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "far fa-file-pdf fa-lg" }),
-              _vm._v(" " + _vm._s(item.file) + "\n                "),
+              _vm._v(" " + _vm._s(item.document) + "\n                "),
               _c(
                 "button",
                 {
@@ -62178,7 +62288,7 @@ var render = function() {
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      _vm.removeDocument({ documentId: item.id })
+                      _vm.removeDocument({ documentId: item.id, index: index })
                     }
                   }
                 },
@@ -62189,7 +62299,7 @@ var render = function() {
         })
       ),
       _vm._v(" "),
-      !_vm.documentos.length
+      _vm.showStatus
         ? _c("div", { staticClass: "list-group list-group-flush rounded-0" }, [
             _vm._m(0)
           ])
@@ -62204,10 +62314,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "div",
-      {
-        staticClass:
-          "list-group-item list-group-item-action border-bottom-0 rounded-0 text-center"
-      },
+      { staticClass: "list-group-item border-bottom-0 rounded-0 text-center" },
       [
         _c("i", {
           staticClass: "fas fa-info-circle fa-lg text-warning",

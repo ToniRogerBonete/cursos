@@ -26,6 +26,15 @@
                         </div>
                         <FilesModal ref="fileVideoContent" :filetypes="['video']" videoacao="input" nomeBtnArquivo="Anexar vídeo" iconeBtnArquivo="fas fa-file-image fa-sm"></FilesModal>
                     </div>
+                    <div class="card-footer rounded-0">
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <button type="submit" class="btn btn-success btn-sm" @click.prevent="submitForm()" data-toggle="tooltip" data-placement="top" title="Salvar">
+                                    <i class="fas fa-save"></i> Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </formulario>
             </div>
         </span>
@@ -56,6 +65,15 @@
                             <div class="form-group col-md-12">
                                 <label>Digite um texto</label>
                                 <textarea v-model="form.text" rows="3" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer rounded-0">
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <button type="submit" class="btn btn-success btn-sm" @click.prevent="submitForm()" data-toggle="tooltip" data-placement="top" title="Salvar">
+                                    <i class="fas fa-save"></i> Salvar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -182,6 +200,15 @@
                             <file-lista-anexo-documento :documentos="documentos"></file-lista-anexo-documento>
                         </span>
                     </div>
+                    <div class="card-footer rounded-0">
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <button type="submit" class="btn btn-success btn-sm" @click.prevent="submitForm()" data-toggle="tooltip" data-placement="top" title="Salvar">
+                                    <i class="fas fa-save"></i> Salvar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </formulario>
             </div>
         </span>
@@ -304,6 +331,16 @@
                     }
                     if(response.data.questions) {
                         self.questions = response.data.questions;
+                    }
+                    if(response.data.documents) {
+                        if(response.data.documents.length == 0) {
+
+                            console.log('teste...');
+
+                            Vue.nextTick(() => self.documentos = []);
+                        } else {
+                            self.documentos = response.data.documents;
+                        }
                     }
                 })
                 .catch(function (error) {
@@ -454,11 +491,10 @@
                 })
                 .catch(function (error) {
                 });
-            },
-            addDocument() {
-
-                console.log(this.documentos);
-
+            }
+        },
+        watch: {
+            documentos() {
                 var self = this;
                 this.doc.content_id = this.form.id;
                 this.doc.documentos = this.documentos;
@@ -469,9 +505,9 @@
                 })
                 .then(function (response) {
                     self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                    <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
-                </div>';
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                        <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
+                    </div>';
                     self.msgErrorSuccess(true, self.msgError);
                 })
                 .catch(function (error) {

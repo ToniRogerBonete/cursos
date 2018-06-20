@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->integer('content_id')->unsigned();
             $table->foreign('content_id')->references('id')->on('contents')->onDelete('cascade');
-            $table->string('question','255')->nullable();
+            $table->text('question')->nullable();
             $table->timestamps();
         });
     }

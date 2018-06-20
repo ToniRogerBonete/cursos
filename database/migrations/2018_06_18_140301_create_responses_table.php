@@ -19,7 +19,7 @@ class CreateResponsesTable extends Migration
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->integer('question_id')->unsigned();
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->string('response','255')->nullable();
+            $table->text('response')->nullable();
             $table->char('correct','1')->nullable();
             $table->timestamps();
         });

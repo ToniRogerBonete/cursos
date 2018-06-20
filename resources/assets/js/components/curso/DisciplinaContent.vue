@@ -82,8 +82,8 @@
                 form: {
                     curso_id: this.cursoId,
                     name: '',
-                    minimun_time: '',
-                    price: ''
+                    minimun_time: 0,
+                    price: 0
                 },
                 mostraPreco: false,
                 token: Laravel.token,
@@ -158,7 +158,7 @@
                 .then(function (response) {
                     self.form.name = response.data.name;
                     self.form.minimun_time = response.data.minimun_time;
-                    self.form.price = response.data.price;
+                    self.form.price =  response.data.price ? response.data.price : 0;
                     self.modalFileShow(id);
                 })
                 .catch(function (error) {

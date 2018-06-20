@@ -19,7 +19,7 @@
         },
         methods: {
             anexaArquivo(link) {
-                var documento = {'file':link};
+                var documento = {'document':link};
                 if(this.verifyObject(link, this.$parent.$parent.$parent.documentos)==false) {
                     this.$parent.$parent.$parent.documentos.push(documento);
                 }
@@ -28,8 +28,8 @@
                 var arr = [];
                 var i;
                 for (i = 0; i < object.length; i++) {
-                    if(object[i].file != '') {
-                        arr[i] = object[i].file;
+                    if(object[i].document != '') {
+                        arr[i] = object[i].document;
                     }
                 }
                 if(arr.indexOf(item) > -1) {

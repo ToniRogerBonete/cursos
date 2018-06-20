@@ -167,14 +167,10 @@
             onUpdate: function (event) {
                 const movedItem = this.disciplinaLista.splice(event.oldIndex, 1)[0];
                 this.disciplinaLista.splice(event.newIndex, 0, movedItem);
-                console.log(this.disciplinaLista);
                 this.ordenaDisciplinas();
             },
             ordenaDisciplinas() {
                 var self = this;
-                console.log({
-                    disc: this.disciplinaLista
-                });
                 var data = {
                     disciplinas: this.disciplinaLista,
                     curso_id: [this.cursoId]

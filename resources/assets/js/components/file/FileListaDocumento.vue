@@ -20,8 +20,8 @@
         methods: {
             anexaArquivo(link) {
                 var documento = {'document':link};
-                if(this.verifyObject(link, this.$parent.$parent.$parent.documentos)==false) {
-                    this.$parent.$parent.$parent.documentos.push(documento);
+                if(this.verifyObject(link, this.$parent.$refs.listaDocumentos.documentos)==false) {
+                    this.$parent.$refs.listaDocumentos.documentos.push(documento);
                 }
             },
             verifyObject(item, object) {

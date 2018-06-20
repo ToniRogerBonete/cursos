@@ -196,8 +196,7 @@
                             </div>
                         </div>
                         <span v-if="form.id">
-                            <FilesModal ref="fileAnexoContent" :filetypes="['documento']" nomeBtnArquivo="Anexar pdf" iconeBtnArquivo="fas fa-paperclip fa-sm"></FilesModal>
-                            <file-lista-anexo-documento :documentos="documentos"></file-lista-anexo-documento>
+                            <FilesModal ref="fileDocumento" :filetypes="['documento']" nomeBtnArquivo="Anexar pdf" iconeBtnArquivo="fas fa-paperclip fa-sm"></FilesModal>
                         </span>
                     </div>
                     <div class="card-footer rounded-0">
@@ -220,11 +219,9 @@
 
     import Formulario from "../Formulario";
     import FilesModal from "../file/Index";
-    import FileListaAnexoDocumento from "../file/FileListaAnexoDocumento";
 
     export default {
         components: {
-            FileListaAnexoDocumento,
             Formulario,
             FilesModal,
         },
@@ -236,7 +233,8 @@
                     name: '',
                     text: '',
                     url: '',
-                    type: ''
+                    type: '',
+                    documentos: []
                 },
                 question: {
                     content_id: '',
@@ -247,11 +245,6 @@
                     response: '',
                     correct: ''
                 },
-                doc: {
-                    content_id: '',
-                    documentos: []
-                },
-                documentos: [],
                 token: Laravel.token,
                 method: '',
                 action: '',
@@ -292,6 +285,9 @@
                 var self = this;
                 if(this.form.type==1) {
                     this.form.url = this.$refs.fileVideoContent.videoSrc;
+                }
+                if(this.form.type==4) {
+                    this.form.documentos = self.$refs.fileDocumento.$refs.listaDocumentos.documentos;
                 }
                 axios({
                     method: this.method,
@@ -334,12 +330,9 @@
                     }
                     if(response.data.documents) {
                         if(response.data.documents.length == 0) {
-
-                            console.log('teste...');
-
                             Vue.nextTick(() => self.documentos = []);
                         } else {
-                            self.documentos = response.data.documents;
+                            self.$refs.fileDocumento.$refs.listaDocumentos.documentos = response.data.documents;
                         }
                     }
                 })
@@ -487,27 +480,6 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
                     <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
                 </div>';
-                    self.msgErrorSuccess(true, self.msgError);
-                })
-                .catch(function (error) {
-                });
-            }
-        },
-        watch: {
-            documentos() {
-                var self = this;
-                this.doc.content_id = this.form.id;
-                this.doc.documentos = this.documentos;
-                axios({
-                    method: 'POST',
-                    url: '/api/document',
-                    data: this.doc,
-                })
-                .then(function (response) {
-                    self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                        <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
-                    </div>';
                     self.msgErrorSuccess(true, self.msgError);
                 })
                 .catch(function (error) {

@@ -29,6 +29,7 @@
         </span>
 
         <!--documento-->
+        <file-lista-anexo-documento ref="listaDocumentos"></file-lista-anexo-documento>
 
         <div class="modal fade" data-backdrop="static" :id="'modalFile_' + _uid">
             <div class="modal-dialog modal-lg" role="document">
@@ -111,11 +112,14 @@
 </template>
 
 <script>
+
     import FileListaVideo from "./FileListaVideo";
     import FileListaDocumento from "./FileListaDocumento";
+    import FileListaAnexoDocumento from "./FileListaAnexoDocumento";
 
     export default {
         components: {
+            FileListaAnexoDocumento,
             FileListaVideo,
             FileListaDocumento
         },

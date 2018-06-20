@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Content;
+use App\Document;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Gate;
+use function PHPSTORM_META\type;
 
 class ContentController extends Controller
 {
@@ -102,6 +104,16 @@ class ContentController extends Controller
         $content->url = $request->url;
         $content->text = $request->text;
         $content->save();
+
+        if($request->type==4) {
+            foreach($request->documentos as $key => $value) {
+                Document::firstOrCreate(
+                    ['document' => $value['document'], 'content_id' => $id],
+                    ['account_id' => Auth::user()->account_id,'content_id' => $id,'document' => $value['document']]
+                )->save();
+            }
+        }
+
         return response()->json(['data'=>'Conteúdo salvo com sucesso!','id' => $content->id]);
     }
 

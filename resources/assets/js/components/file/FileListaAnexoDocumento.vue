@@ -20,35 +20,48 @@
 
 <script>
     export default {
-        props: ['documentos'],
         data: function () {
             return {
-                showStatus: false
+                showStatus: false,
+                documentos: []
             }
         },
         methods: {
             removeDocument(val) {
-                this.documentos.splice(val.index,1);
                 var self = this;
-                axios({
-                    method: 'DELETE',
-                    url: '/api/document/' + val.documentId
-                })
-                    .then(function (response) {
-                        self.getContent(val.contentId);
-                        self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                        <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
-                    </div>';
-                        self.msgErrorSuccess(true, self.msgError);
-                    })
-                    .catch(function (error) {
-                    });
-            },
+                $.confirm({
+                    title: 'Confirme!',
+                    content: 'Você deseja confirmar a exclusão do item?',
+                    buttons: {
+                        confirmar: {
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                self.documentos.splice(val.index,1);
+                                axios({
+                                    method: 'DELETE',
+                                    url: '/api/document/' + val.documentId
+                                })
+                                .then(function (response) {
+                                    self.getContent(val.contentId);
+                                    self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                                        <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
+                                    </div>';
+                                    self.msgErrorSuccess(true, self.msgError);
+                                })
+                                .catch(function (error) {
+                                });
+                            }
+                        },
+                        cancelar: function () {
+                        },
+                    }
+                });
+            }
         },
         watch: {
             documentos() {
-                console.log(this.documentos.length);
+                var self = this;
                 if(this.documentos.length > 0) {
                     this.showStatus = false;
                 } else {

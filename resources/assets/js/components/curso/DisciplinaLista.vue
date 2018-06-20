@@ -25,19 +25,21 @@
                 <div class="card-body border-right border-left border-top border-bottom p-0" v-sortable="{ onEnd: onUpdate, handle: '.handle' }">
                     <div v-sortable="{ onEnd: onUpdate, handle: '.handle' }">
                         <div v-for="(itemc,indexc) in item.contents" :key="itemc.id" class="list-group list-group-flush;">
-                            <button v-if="itemc.type!=3" href="#" @click.prevent="contentShow({'disciplineId':item.id, 'contentId':itemc.id, 'type':itemc.type, 'index':index})" class="list-group-item list-group-item-action rounded-0 border-top-0 border-right-0 border-left-0 " :class="itemc.id == active ? 'active' : ''" style="position: relative; padding-left: 25px; cursor: pointer;">
+                            <div v-if="itemc.type!=3" class="p-0 list-group-item list-group-item-action rounded-0 border-top-0 border-right-0 border-left-0 " :class="itemc.id == active ? 'active' : ''" style="position: relative; padding-left: 25px; cursor: pointer;">
                                 <div class="float-left mr-2 handle" style="cursor:move; position: absolute; top: 12px; left: 10px;" data-toggle="tooltip" data-placement="top" title="Mover disciplina">
                                     <i class="fas fa-arrows-alt-v"></i>
                                 </div>
                                 <button @click.prevent="removeContent({'contentId':itemc.id})" class="btn btn-light btn-xs mr-2" style="position: absolute; top: 12px; right: 2px;" data-toggle="tooltip" data-placement="top" title="Excluir conteúdo">
                                     <i class="fas fa-times"></i>
                                 </button>
-                                <i v-if="itemc.type==1" class="fas fa-play-circle"></i>
-                                <i v-if="itemc.type==2" class="fas fa-font"></i>
-                                <i v-if="itemc.type==3" class="fas fa-list-ul"></i>
-                                <i v-if="itemc.type==4" class="fas fa-paperclip"></i>
-                                {{itemc.name}}
-                            </button>
+                                <div class="w-100" @click.prevent="contentShow({'disciplineId':item.id, 'contentId':itemc.id, 'type':itemc.type, 'index':index})" style="padding: 12px 12px 12px 28px;">
+									<i v-if="itemc.type==1" class="fas fa-play-circle"></i>
+                                    <i v-if="itemc.type==2" class="fas fa-font"></i>
+                                    <i v-if="itemc.type==3" class="fas fa-list-ul"></i>
+                                    <i v-if="itemc.type==4" class="fas fa-paperclip"></i>
+                                    {{itemc.name}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div v-for="(itemc,indexc) in item.contents" class="list-group list-group-flush;">
@@ -63,7 +65,7 @@
 
     export default {
         components: {
-          FilesCourse,
+            FilesCourse,
         },
         props: ['item','icone','index'],
         data: function () {
@@ -96,16 +98,16 @@
                     url: '/api/content/ordem',
                     data: data
                 })
-                .then(function (response) {
-                    self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
+                    .then(function (response) {
+                        self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
                     <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
                 </div>';
-                    $('#modalFile_' + self._uid).modal('hide');
-                    self.msgErrorSuccess(true, self.msgError);
-                })
-                .catch(function (error) {
-                });
+                        $('#modalFile_' + self._uid).modal('hide');
+                        self.msgErrorSuccess(true, self.msgError);
+                    })
+                    .catch(function (error) {
+                    });
             },
             abre(el) {
                 $('.collapse').removeClass('show');
@@ -113,19 +115,32 @@
             },
             removeContent(val) {
                 var self = this;
-                axios({
-                    method: 'DELETE',
-                    url: '/api/content/' + val.contentId
-                })
-                .then(function (response) {
-                    self.$parent.getDisciplinas(self.$parent.cursoId);
-                    self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-                        <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
-                    </div>';
-                    self.msgErrorSuccess(true, self.msgError);
-                })
-                .catch(function (error) {
+                $.confirm({
+                    title: 'Confirme!',
+                    content: 'Você deseja confirmar a exclusão do item?',
+                    buttons: {
+                        confirmar: {
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                axios({
+                                    method: 'DELETE',
+                                    url: '/api/content/' + val.contentId
+                                })
+                                .then(function (response) {
+                                    self.$parent.getDisciplinas(self.$parent.cursoId);
+                                    self.msgError = '<div class="alert alert-success pb-0" style="margin-bottom: 0;">\
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+                                    <p><i class="fa fa-check" aria-hidden="true"></i> ' + response.data.data + '</p>\
+                                </div>';
+                                    self.msgErrorSuccess(true, self.msgError);
+                                })
+                                .catch(function (error) {
+                                });
+                            }
+                        },
+                        cancelar: function () {
+                        },
+                    }
                 });
             }
         },

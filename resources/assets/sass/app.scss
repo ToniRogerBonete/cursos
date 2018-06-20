@@ -8,6 +8,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Bootstrap
+@import '~jquery-confirm/dist/jquery-confirm.min.css';
+
 body {
   margin-top: 70px;
 }
@@ -90,3 +93,4 @@ img.svg {
   line-height: 0.5;
   border-radius: 0.2rem;
 }
+

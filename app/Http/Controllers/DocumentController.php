@@ -16,24 +16,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('dashboard-view')) {
-            abort(403);
-        }
-
-//        $document = new Document();
-//        $document->account_id = Auth::user()->account_id;
-//        $document->content_id = $request->content_id;
-//        $document->document = $request->document;
-
-
-        Document::firstOrCreate(
-            ['document' => 'Flight 10'], ['content_id' => 3,'document' => 'dasdlasldsam.pdf']
-        )->save();
-
-
-
-//        $document->save();
-        return response()->json(['data'=>'Documento adicionado com sucesso!','id' => $document->id]);
+        //
     }
 
     /**

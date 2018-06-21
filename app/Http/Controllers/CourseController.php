@@ -114,7 +114,7 @@ class CourseController extends Controller
             abort(403);
         }
 
-        if($request->image) {
+        if($request->image_presentation) {
             $thumbnail = $this->thumbnail($request);
         }
 
@@ -130,12 +130,19 @@ class CourseController extends Controller
         $course->type_sale = $request->type_sale;
         $course->price = $request->price;
         $course->certificate = $request->certificate;
-        $course->video_presentation = $request->video;
+        $course->video_presentation = $request->video_presentation;
         $course->video_current_time = $request->current_time;
         $course->image_presentation = $thumbnail;
         $course->status = $request->status;
         $course->save();
-        return response()->json(['data'=>'Curso salvo com sucesso!','id' => $course->id]);
+
+        if($request->status==1) {
+            $message = 'Curso salvo com sucesso';
+        } else {
+            $message = 'Curso publicado com sucesso';
+        }
+
+        return response()->json(['data'=>$message,'id' => $course->id]);
     }
 
     public function thumbnail($request) {
@@ -144,7 +151,7 @@ class CourseController extends Controller
         $name = md5($request->id.Auth::user()->account_id);
         $nameFile = "{$name}.{$extension}";
         $path = 'imagem\/capa_curso_' . $nameFile;
-        $image = Image::make(file_get_contents($request->image));
+        $image = Image::make(file_get_contents($request->image_presentation));
         $width = $image->width();
         $height = $image->height();
         $image->fit($width, $height, function ($constraint) {

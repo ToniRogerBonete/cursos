@@ -42,8 +42,8 @@
                         <a href="" class="dropdown-item">
                             Recebimento
                         </a>
-                        <a href="" class="dropdown-item">
-                            Cursos adquiridos
+                        <a href="usuarios" class="dropdown-item">
+                            Permissões de acesso
                         </a>
                     </div>
                 </li>

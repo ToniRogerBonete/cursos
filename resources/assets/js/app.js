@@ -63,7 +63,16 @@ Vue.mixin({
             document.getElementById(elemento).focus();
         },
         msgErrorSuccess: function(status,msg) {
+            var self = this;
             this.$store.commit('setMsgErrorSuccess', {status: status, msg: msg});
+            $(".form-control").removeClass("is-invalid");
+        },
+        classErrorSuccess: function(erro) {
+            var self = this;
+            $(".form-control").removeClass("is-invalid");
+            Object.values(Object.getOwnPropertyNames(erro.response.data.errors)).forEach(function (value) {
+                $("#"+value).addClass("is-invalid");
+            });
         },
         verificaStatusHttp: function(erro) {
             var msgErro;
@@ -91,7 +100,6 @@ Vue.mixin({
                 Object.values(erro.data.errors).forEach(function (value) {
                     errom += value[0] + '<br>';
                 });
-                self.sucesso = true;
                 msgErro = '<div class="alert alert-danger rounded-0 mb-0">\
                    <p class="mb-0"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i> ' + errom + ' </p>\
                 </div>';

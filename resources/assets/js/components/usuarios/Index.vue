@@ -19,8 +19,8 @@
                         </div>
                     </div>
                     <div class="form-group col text-right">
-                        <a href="/painel/cursos/create" class="btn btn-success rounded-0">
-                            <i class="fas fa-plus"></i> <span class="d-none d-md-inline-block">Novo curso</span>
+                        <a href="/painel/usuarios/create" class="btn btn-success rounded-0">
+                            <i class="fas fa-plus"></i> <span class="d-none d-md-inline-block">Novo usuário</span>
                         </a>
                     </div>
                 </div>
@@ -31,27 +31,17 @@
                         <thead>
                         <tr>
                             <th scope="col">Nome</th>
-                            <th style="width: 15%" scope="col">Tipo venda</th>
-                            <th style="width: 5%" scope="col">Status</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in courses" @click.prevent="redirectCurso('/painel/cursos/edit/' + item.id);" style="cursor: pointer">
+                            <tr v-for="(item,index) in courses" @click.prevent="redirectCurso('/painel/usuarios/edit/' + item.id);" style="cursor: pointer">
                                 <td>
                                     {{item.name}}
-                                </td>
-                                <td>
-                                    <span v-if="item.type_sale==1"><i class="fas fa-cube"></i> Por pacote</span>
-                                    <span v-if="item.type_sale==2"><i class="fas fa-cubes"></i> Por disciplina</span>
-                                </td>
-                                <td class="text-center">
-                                    <i v-if="item.status==2" class="fas fa-check fa-lg text-success" data-toggle="tooltip" data-placement="left" title="Publicado"></i>
-                                    <i v-if="item.status==1" class="far fa-square fa-lg text-warning" data-toggle="tooltip" data-placement="left" title="Em edição"></i>
                                 </td>
                             </tr>
                             <tr v-if="semCurso" style="cursor: pointer">
                                 <td class="text-center" colspan="2">
-                                    <i class="fas fa-info-circle fa-lg text-warning" aria-hidden="true"></i> Ainda não existem cadastros de cursos
+                                    <i class="fas fa-info-circle fa-lg text-warning" aria-hidden="true"></i> Ainda não existem cadastros de usuários
                                 </td>
                             </tr>
                         </tbody>
@@ -84,7 +74,7 @@
                         text: 'Dashboard',
                         href: '/painel/dashboard'
                     }, {
-                        text: 'Lista curso',
+                        text: 'Lista usuário',
                         href: ''
                     }]
                 },

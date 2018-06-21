@@ -158,7 +158,7 @@
                                                     <input :name="item.id" :checked="itemr.correct" type="radio">
                                                 </label>
                                                 <div @click.prevent="removeResponse({'contentId':item.content_id, 'responseId':itemr.id})" class="input-group-text bg-light" style="cursor: pointer">
-                                                    <i class="fas fa-times text-danger"></i>
+                                                    <i class="fas fa-times"></i>
                                                 </div>
                                             </div>
                                         </div>

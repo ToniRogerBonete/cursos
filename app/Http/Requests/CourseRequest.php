@@ -29,7 +29,8 @@ class CourseRequest extends FormRequest
             'type_sale.required' => 'Defina o tipo de venda!',
             'price.required' => 'Digite o preço do curso!',
             'video_presentation.required' => 'Anexe um vídeo de apresentação!',
-            'image_presentation.required' => 'Anexe uma imagem de apresentação!'
+            'discipline.required' => 'Adicione pelo menos uma disciplina!',
+            'content.required' => 'Exitem disciplinas sem conteúdo!'
         ];
     }
 
@@ -52,9 +53,13 @@ class CourseRequest extends FormRequest
             $rules['requisites'] = 'required';
             $rules['audience'] = 'required';
             $rules['type_sale'] = 'required';
+            $rules['video_presentation'] = 'required';
+            $rules['discipline'] = 'required';
+            $rules['content'] = 'required';
+        }
+
+        if($this->get('status')=='2' and $this->get('type_sale')=='1') {
             $rules['price'] = 'required';
-            $rules['video'] = 'required';
-            $rules['image'] = 'required';
         }
 
         return $rules;

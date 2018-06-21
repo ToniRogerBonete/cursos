@@ -7,6 +7,11 @@ import Curso from '../components/curso/Index.vue';
 import CursoEdit from '../components/curso/Edit.vue';
 import CursoCreate from '../components/curso/Create.vue';
 
+//PERMISSOES
+import Usuario from '../components/usuarios/Index.vue';
+import UsuarioEdit from '../components/usuarios/Edit.vue';
+import UsuarioCreate from '../components/usuarios/Create.vue';
+
 Vue.use(Router);
 
 export default new Router({
@@ -36,6 +41,23 @@ export default new Router({
 			name: 'painel.cursos.create',
 			component: CursoCreate,
 			props: true,
+		},
+		{//usuarios
+		   path: '/painel/usuarios',
+		   name: 'painel.usuarios.index',
+		   component: Usuario,
+		},
+		{
+		   path: '/painel/usuarios/edit/:id',
+		   name: 'painel.usuarios.edit',
+		   component: UsuarioEdit,
+		   props: true,
+		},
+		{
+		   path: '/painel/usuarios/create',
+		   name: 'painel.usuarios.create',
+		   component: UsuarioCreate,
+		   props: true,
 		}
    ],
    mode: 'history',

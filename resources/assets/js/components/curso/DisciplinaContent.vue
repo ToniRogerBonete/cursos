@@ -89,7 +89,8 @@
                 token: Laravel.token,
                 method: '',
                 action: '',
-                disciplinaLista: {}
+                disciplinaLista: {},
+                conteudoLista: false
             }
         },
         methods: {
@@ -145,6 +146,12 @@
                 })
                 .then(function (response) {
                     self.disciplinaLista = response.data;
+                    self.conteudoLista = false;
+                    Object.values(response.data).forEach(function (value) {
+                        if(value.contents.length==0) {
+                            self.conteudoLista = true;
+                        }
+                    });
                 })
                 .catch(function (error) {
                 });

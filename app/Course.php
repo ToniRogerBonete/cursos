@@ -27,6 +27,12 @@ class Course extends Model
 
     protected $guarded = ['id', 'created_at', 'update_at'];
 
+    public function disciplines()
+    {
+        return $this->hasMany('App\Disciplines')
+            ->orderBy('ordem','ASC');
+    }
+
     protected static function boot()
     {
         parent::boot();

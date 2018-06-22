@@ -64,17 +64,12 @@ class User extends Authenticatable
         if (is_string($role)) {
             $role = Role::where('name','=',$role)->firstOrFail();
         }
-
         return (boolean) $this->roles()->find($role->id);
-
     }
 
-    public function removeRole($role)
+    public function removeRole()
     {
-        if (is_string($role)) {
-            $role = Role::where('name','=',$role)->firstOrFail();
-        }
-        return $this->roles()->detach($role);
+        return $this->roles()->detach();
     }
 
     public function removeRoles($role)

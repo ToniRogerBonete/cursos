@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Auth;
 
 class PermissionController extends Controller
 {
@@ -14,7 +16,11 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        if(Gate::denies('dashboard-view')) {
+            abort(403);
+        }
+        $permissions = Permission::all();
+        return response()->json($permissions);
     }
 
     /**

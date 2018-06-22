@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Auth;
 
 class RoleController extends Controller
 {
@@ -14,7 +17,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        if(Gate::denies('dashboard-view')) {
+            abort(403);
+        }
+        $roles = Role::all();
+        return response()->json($roles);
     }
 
     /**
@@ -39,14 +46,26 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a listing of the resource.
      *
-     * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(Request $request,$id)
     {
-        //
+        if(Gate::denies('dashboard-view')) {
+            abort(403);
+        }
+        $roles = new Role();
+        $roles = $this->filtro($roles,$request)
+            ->paginate(13);
+        return response()->json($roles);
+    }
+
+    public function filtro($query,$request){
+        if($request->filtro) {
+            $query = $query->where('name', 'like', '%' . $request->filtro . '%');
+        }
+        return $query;
     }
 
     /**
@@ -55,9 +74,10 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
-        //
+        $rule = Role::with('permissions')->find($id);
+        return response()->json($rule);
     }
 
     /**
@@ -67,9 +87,17 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
-        //
+        if(Gate::denies('dashboard-view')) {
+            abort(403);
+        }
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->description = $request->description;
+        $role->save();
+        $this->permissionStore($request, $id);
+        return response()->json(['data'=>'Alterado com sucesso!']);
     }
 
     /**
@@ -82,4 +110,19 @@ class RoleController extends Controller
     {
         //
     }
+
+    public function permissionStore(Request $request, $id)
+    {
+        if(Gate::denies('dashboard-view')) {
+            abort(403);
+        }
+        $role = Role::find($id);
+        $role->removePermissions('');
+        foreach($request->permission as $key => $value) {
+            $permission = Permission::find($value);
+            $role->addPermission($permission);
+        }
+        return $request->permissao;
+    }
+
 }

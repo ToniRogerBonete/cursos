@@ -3,35 +3,24 @@
         <formulario id="formCurso" :action="action" :method="method" enctype="" :token="token" css="">
             <input v-model="form.id" type="hidden" name="id">
             <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label>Nome do usuário</label>
-                    <input v-model="form.name" ref="name" type="text" class="form-control form-control-lg" id="name" placeholder="digite um nome">
+                <div class="form-group col-md-3">
+                    <label>Nome da permissão</label>
+                    <input v-model="form.name" ref="name" type="text" class="form-control" id="name" placeholder="digite um nome">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Descrição</label>
+                    <input v-model="form.description" type="text" class="form-control" id="description" placeholder="digite uma descrição">
                 </div>
             </div>
-            <h5>Dados de acesso</h5>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label>E-mail</label>
-                    <input v-model="form.email" type="text" class="form-control" id="email" placeholder="digite um e-mail">
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Senha</label>
-                    <input v-model="form.password" type="password" class="form-control" id="password" placeholder="">
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Confirmar senha</label>
-                    <input v-model="form.password_confirmation" type="password" class="form-control" id="password_confirmation" placeholder="">
-                </div>
-            </div>
-            <h5>Administração de papéis</h5>
+            <h5>Administração de permissões</h5>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <div class="col-lg-12">
                         <div class="row">
-                            <div v-for="(item,index) in roles" class="col-2 mt-2 p-0">
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input v-model="form.role" type="radio" :id="'customRadio' + index" name="role" :value="item.id" class="custom-control-input">
-                                    <label class="custom-control-label" :for="'customRadio' + index">{{item.name}}</label>
+                            <div v-for="(item,index) in permissions" class="col-3 mt-2 p-0">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input v-model="form.permission" type="checkbox" :id="'customCheck' + index" :value="item.id" class="custom-control-input">
+                                    <label class="custom-control-label" :for="'customCheck' + index">{{item.name}}</label>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +29,7 @@
             </div>
             <hr class="mb-3">
             <div class="form-group text-right mb-0">
-                <router-link :to="{ name: 'painel.usuarios.index' }" class="btn btn-link rounded-0">Cancelar</router-link>
+                <router-link :to="{ name: 'painel.papeis.index' }" class="btn btn-link rounded-0">Cancelar</router-link>
                 <button type="submit" class="btn btn-success rounded-0" @click.prevent="submitForm('1')"><i class="fas fa-save"></i> Salvar</button>
             </div>
         </formulario>
@@ -63,25 +52,23 @@
                 form: {
                     id: '',
                     name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    role: ''
+                    description: '',
+                    permission: []
                 },
                 breadcrumb: {
                     items: [{
                         text: 'Dashboard',
                         href: '/dashboard'
                     }, {
-                        text: 'Lista usuário',
-                        href: '/usuarios'
+                        text: 'Lista papéis',
+                        href: '/papeis'
                     }, {
-                        text: 'Novo usuário',
+                        text: 'Novo papel',
                         active: true
                     }]
                 },
                 token: Laravel.token,
-                roles: {}
+                permissions: []
             }
         },
         methods: {
@@ -103,29 +90,31 @@
                     self.classErrorSuccess(error);
                 });
             },
-            getUsuario() {
+            getPapel() {
                 var self = this;
                 axios({
                     method: 'get',
-                    url: '/api/usuario/' + this.id + '/edit',
+                    url: '/api/role/' + this.id + '/edit',
                 })
                 .then(function (response) {
                     self.form.id = response.data.id;
                     self.form.name = response.data.name;
-                    self.form.email = response.data.email;
-                    self.form.role = response.data.roles[0].id;
+                    self.form.description = response.data.description;
+                    $.each(response.data.permissions, function (index, value) {
+                        self.form.permission[index] = value['id'];
+                    });
                 })
                 .catch(function (error) {
                 });
             },
-            getRoles() {
+            getPermissoes() {
                 var self = this;
                 axios({
                     method: 'get',
-                    url: '/api/role',
+                    url: '/api/permission',
                 })
                 .then(function (response) {
-                    self.roles = response.data;
+                    self.permissions = response.data;
                 })
                 .catch(function (error) {
                 });
@@ -133,9 +122,9 @@
         },
         mounted() {
             if(this.id) {
-                this.getUsuario();
+                this.getPapel();
             }
-            this.getRoles();
+            this.getPermissoes();
             Vue.nextTick(() => this.$refs.name.focus());
         },
     }

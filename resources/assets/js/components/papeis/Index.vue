@@ -12,15 +12,15 @@
                         <div class="input-group">
                             <input v-model="filtro" type="text" class="form-control" placeholder="procure por...">
                             <div class="input-group-append">
-                                <button type="submit" @click.prevent="getCursos" class="btn btn-default">
+                                <button type="submit" @click.prevent="getItens" class="btn btn-default">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col text-right">
-                        <a href="/painel/usuarios/create" class="btn btn-success rounded-0">
-                            <i class="fas fa-plus"></i> <span class="d-none d-md-inline-block">Novo usuário</span>
+                        <a href="/painel/papeis/create" class="btn btn-success rounded-0">
+                            <i class="fas fa-plus"></i> <span class="d-none d-md-inline-block">Novo papel</span>
                         </a>
                     </div>
                 </div>
@@ -31,22 +31,26 @@
                         <thead>
                         <tr>
                             <th scope="col">Nome</th>
+                            <th scope="col">Descrição</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in courses" @click.prevent="redirectCurso('/painel/usuarios/edit/' + item.id);" style="cursor: pointer">
+                            <tr v-for="(item,index) in papeis" @click.prevent="redirectItem('/painel/papeis/edit/' + item.id);" style="cursor: pointer">
                                 <td>
                                     {{item.name}}
                                 </td>
+                                <td>
+                                    {{item.description}}
+                                </td>
                             </tr>
-                            <tr v-if="semCurso" style="cursor: pointer">
+                            <tr v-if="totalRows==0" style="cursor: pointer">
                                 <td class="text-center" colspan="2">
-                                    <i class="fas fa-info-circle fa-lg text-warning" aria-hidden="true"></i> Ainda não existem cadastros de usuários
+                                    <i class="fas fa-info-circle fa-lg text-warning" aria-hidden="true"></i> Ainda não existem cadastros de papéis
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <b-pagination v-if="mostraOcultaPaginacao" align="right" :total-rows="totalRows" v-model="currentPage" :per-page="perPage" class="d-print-none"></b-pagination>
+                    <b-pagination v-if="lastPage>1" align="right" :total-rows="totalRows" v-model="currentPage" :per-page="perPage" class="d-print-none"></b-pagination>
                 </div>
             </div>
         </div>
@@ -65,41 +69,36 @@
         data: function() {
             return {
                 filtro: '',
-                courses: '',
                 currentPage: null,
                 totalRows: null,
                 perPage: null,
+                lastPage: null,
                 breadcrumb: {
                     items: [{
                         text: 'Dashboard',
                         href: '/painel/dashboard'
                     }, {
-                        text: 'Lista usuário',
+                        text: 'Lista papéis',
                         href: ''
                     }]
                 },
-                semCurso: false,
-                mostraOcultaPaginacao: false
+                mostraOcultaPaginacao: false,
+                papeis: {}
             }
         },
         methods: {
-            getCursos() {
+            getItens() {
                 self = this;
                 axios({
                     method: 'get',
-                    url: '/api/usuario?page=' + this.currentPage + '&filtro=' + this.filtro
+                    url: '/api/role/filtro?page=' + this.currentPage + '&filtro=' + this.filtro
                 })
                 .then(function (response) {
-                    var courses = response.data;
-                    self.courses = courses.data;
-                    self.currentPage = courses.current_page;
-                    self.totalRows = courses.total;
-                    self.perPage = courses.per_page;
-                    if(!courses.data.length) {
-                        self.semCurso = true;
-                    } else {
-                        self.mostraOcultaPaginacao = true;
-                    }
+                    self.papeis = response.data.data;
+                    self.currentPage = response.data.current_page;
+                    self.totalRows = response.data.total;
+                    self.perPage = response.data.per_page;
+                    self.lastPage = response.data.last_page;
                 })
                 .catch(function (error) {
                 });
@@ -107,17 +106,17 @@
                     $('[data-toggle="tooltip"]').tooltip()
                 );
             },
-            redirectCurso(url) {
+            redirectItem(url) {
                 this.$router.push({ path: url });
             }
         },
         watch: {
             currentPage() {
-                this.getCursos();
+                this.getItens();
             },
         },
         mounted() {
-            this.getCursos();
+            this.getItens();
         }
     }
 </script>

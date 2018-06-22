@@ -25,9 +25,11 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="cursos" class="dropdown-item">
+                        @can('curso-view')
+                        <a href="/painel/cursos" class="dropdown-item">
                             Cadastrar cursos
                         </a>
+                        @endcan
                         <a href="" class="dropdown-item">
                             Cursos adquiridos
                         </a>
@@ -42,9 +44,16 @@
                         <a href="" class="dropdown-item">
                             Recebimento
                         </a>
-                        <a href="usuarios" class="dropdown-item">
-                            Permissões de acesso
+                        @can('usuario-view')
+                        <a href="/painel/usuarios" class="dropdown-item">
+                            Usuários
                         </a>
+                        @endcan
+                        @can('papel-view')
+                            <a href="/painel/papeis" class="dropdown-item">
+                                Papéis
+                            </a>
+                        @endcan
                     </div>
                 </li>
                 <li class="nav-item dropdown">

@@ -6,7 +6,7 @@
                     <breadcrumb class="bg-transparent p-0" :items="breadcrumb.items"></breadcrumb>
                 </div>
             </div>
-            <form-create-edit ref="formularioContato" action="/api/curso" :id="id" method="POST"></form-create-edit>
+            <form-create-edit ref="formularioContato" action="/api/usuario" :id="id" method="POST"></form-create-edit>
         </div>
     </div>
 </template>

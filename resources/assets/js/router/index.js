@@ -7,10 +7,15 @@ import Curso from '../components/curso/Index.vue';
 import CursoEdit from '../components/curso/Edit.vue';
 import CursoCreate from '../components/curso/Create.vue';
 
-//PERMISSOES
+//PERMISSÕES
 import Usuario from '../components/usuarios/Index.vue';
 import UsuarioEdit from '../components/usuarios/Edit.vue';
 import UsuarioCreate from '../components/usuarios/Create.vue';
+
+//PAPÉIS
+import Papel from '../components/papeis/Index.vue';
+import PapelEdit from '../components/papeis/Edit.vue';
+import PapelCreate from '../components/papeis/Create.vue';
 
 Vue.use(Router);
 
@@ -25,6 +30,7 @@ export default new Router({
 			name: 'painel.dashboard.index',
 			component: Dashboard,
 		},
+
 		{//curso
 			path: '/painel/cursos',
 			name: 'painel.cursos.index',
@@ -42,7 +48,8 @@ export default new Router({
 			component: CursoCreate,
 			props: true,
 		},
-		{//usuarios
+
+		{//usuários
 		   path: '/painel/usuarios',
 		   name: 'painel.usuarios.index',
 		   component: Usuario,
@@ -57,6 +64,24 @@ export default new Router({
 		   path: '/painel/usuarios/create',
 		   name: 'painel.usuarios.create',
 		   component: UsuarioCreate,
+		   props: true,
+		},
+
+		{//papéis
+		   path: '/painel/papeis',
+		   name: 'painel.papeis.index',
+		   component: Papel,
+		},
+		{
+		   path: '/painel/papeis/edit/:id',
+		   name: 'painel.papeis.edit',
+		   component: PapelEdit,
+		   props: true,
+		},
+		{
+		   path: '/painel/papeis/create',
+		   name: 'painel.papeis.create',
+		   component: PapelCreate,
 		   props: true,
 		}
    ],

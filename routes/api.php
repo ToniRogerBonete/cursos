@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 ////Route::group(['middleware' => 'auth'], function () {
 //    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-//    Route::resource('curso', 'CourseController');
+//    Route::resource('curso', 'CourseCanalController');
 ////});

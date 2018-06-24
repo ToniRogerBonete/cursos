@@ -56129,7 +56129,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center", attrs: { colspan: "2" } }, [
+    return _c("td", { staticClass: "text-center", attrs: { colspan: "3" } }, [
       _c("i", {
         staticClass: "fas fa-info-circle fa-lg text-warning",
         attrs: { "aria-hidden": "true" }

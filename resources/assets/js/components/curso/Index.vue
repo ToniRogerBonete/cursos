@@ -50,7 +50,7 @@
                                 </td>
                             </tr>
                             <tr v-if="semCurso" style="cursor: pointer">
-                                <td class="text-center" colspan="2">
+                                <td class="text-center" colspan="3">
                                     <i class="fas fa-info-circle fa-lg text-warning" aria-hidden="true"></i> Ainda não existem cadastros de cursos
                                 </td>
                             </tr>

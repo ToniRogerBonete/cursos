@@ -39,8 +39,8 @@
             </div>
         </footer>
 
-        @component('layouts.default.scripts')
-            @yield('scripts')
+        @component('layouts.default.scripts-painel')
+            @yield('scripts-painel')
         @endcomponent
 
     </body>

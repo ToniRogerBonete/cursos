@@ -29,17 +29,19 @@
             @include('includs.nav')
         </nav>
 
-        <main class="py-4">
+        <main>
             @yield('content')
         </main>
 
-        <footer class="footer border-top fixed-bottom d-print-none">
+        <footer class="footer border-top fixed-bottom d-print-none bg-white">
             <div class="container text-center">
                 <span class="text-secondary"> © {{ config('app.name', 'Cursos') }} - online course platform</span>
             </div>
         </footer>
 
-        @yield('scripts')
+        @component('layouts.default.scripts')
+            @yield('scripts')
+        @endcomponent
 
     </body>
 </html>

@@ -29,7 +29,7 @@ class Course extends Model
 
     public function disciplines()
     {
-        return $this->hasMany('App\Disciplines')
+        return $this->hasMany('App\Discipline')
             ->orderBy('ordem','ASC');
     }
 

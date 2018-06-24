@@ -19,6 +19,13 @@
                 <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                 <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
             @else
+                <li>
+                    <a class="nav-link text-danger" target="_blank" href="http://{{ str_slug(Auth::user()->name) }}.cursos.prod">
+                        <strong>
+                            <i class="fas fa-globe"></i> Ver meu portal
+                        </strong>
+                    </a>
+                </li>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         <i class="fas fa-graduation-cap"></i> Cursos <span class="caret"></span>

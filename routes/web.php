@@ -2,20 +2,19 @@
 Auth::routes();
 
 //site parceiro
-Route::domain("{account}.cursos.prod")->group(function() {
-    Route::get('/', function($account) {
-        var_dump($account);
-    });
+Route::domain("{account}." . env('APP_URL'))->group(function() {
+    Route::get('/', 'CourseCanalController@getCourses');
+    Route::get('/curso/{course}', 'CourseCanalController@getCourse');
 });
 
 Route::get('/','HomeController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 
-//Route::group(['middleware' => 'auth','prefix' => 'painel'], function () {
-//    Route::any('{all}', function () {
-//        return view('layouts.app-painel');
-//    })->where(['all' => '.*']);
-//});
+Route::group(['middleware' => 'auth','prefix' => 'painel'], function () {
+    Route::any('{all}', function () {
+        return view('layouts.app-painel');
+    })->where(['all' => '.*']);
+});
 
 Route::group(['middleware' => 'auth','prefix' => 'api'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
